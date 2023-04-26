@@ -1,2 +1,2 @@
 export { Box } from './box';
-export { withStyle } from './with-style';
+export { withStyle } from './styles/with-style';

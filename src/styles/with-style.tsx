@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { extractStyle } from './style';
-import type { StyleProps } from './style';
+import { StyleProps, extractStyle } from './style';
 
 export function withStyle<Props>(Component: React.ComponentType<Props>) {
   return (props: Props & StyleProps) => {

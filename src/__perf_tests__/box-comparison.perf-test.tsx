@@ -20,7 +20,7 @@ function repeatComponent(count: number, ui: React.ReactElement) {
 
 test('Box basic rendering', async () => {
   const stats = await measurePerformance(
-    repeatComponent(scale, <Box m={10} />)
+    repeatComponent(scale, <Box m={10} px={5} />)
   );
 
   // Hard perf requirements
@@ -31,6 +31,7 @@ test('Box basic rendering', async () => {
 const styles = StyleSheet.create({
   view: {
     margin: 40,
+    paddingHorizontal: 20,
   },
 });
 
@@ -42,12 +43,16 @@ test('React Native View (stylesheet) basic rendering', async () => {
 
 test('React Native View (inline styles) basic rendering', async () => {
   await measurePerformance(
-    repeatComponent(scale, <View style={{ margin: 40 }} />)
+    repeatComponent(
+      scale,
+      <View style={{ margin: 40, paddingHorizontal: 20 }} />
+    )
   );
 });
 
 const StaticStyledView = styled.View`
   margin: 40px;
+  padding-horizontal: 20px;
 `;
 
 test('Styled.View (static tag string) basic rendering', async () => {
@@ -56,6 +61,7 @@ test('Styled.View (static tag string) basic rendering', async () => {
 
 const DynamicStyledView = styled.View`
   margin: ${() => '40px'};
+  padding-horizontal: ${() => '20px'};
 `;
 
 test('Styled.View (dynamic tag string) basic rendering', async () => {
@@ -64,6 +70,7 @@ test('Styled.View (dynamic tag string) basic rendering', async () => {
 
 const ObjectStyledView = styled.View({
   margin: '40px',
+  paddingHorizontal: '20px',
 });
 
 test('Styled.View (object styles) basic rendering', async () => {
@@ -80,7 +87,7 @@ test('NativeBase Box basic rendering', async () => {
   const wrapper = (ui: React.ReactElement) => (
     <NativeBaseProvider initialWindowMetrics={inset}>{ui}</NativeBaseProvider>
   );
-  await measurePerformance(repeatComponent(scale, <NBBox m={10} />), {
+  await measurePerformance(repeatComponent(scale, <NBBox m={10} px={5} />), {
     wrapper,
   });
 });
