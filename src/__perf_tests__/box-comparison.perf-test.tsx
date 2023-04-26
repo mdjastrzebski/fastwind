@@ -20,7 +20,7 @@ function repeatComponent(count: number, ui: React.ReactElement) {
 
 test('Box basic rendering', async () => {
   const stats = await measurePerformance(
-    repeatComponent(scale, <Box m={10} px={5} />)
+    repeatComponent(scale, <Box m={10} px={5} flex={1} />)
   );
 
   // Hard perf requirements
@@ -32,6 +32,9 @@ const styles = StyleSheet.create({
   view: {
     margin: 40,
     paddingHorizontal: 20,
+    flex: 1,
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
 });
 
@@ -45,7 +48,7 @@ test('React Native View (inline styles) basic rendering', async () => {
   await measurePerformance(
     repeatComponent(
       scale,
-      <View style={{ margin: 40, paddingHorizontal: 20 }} />
+      <View style={{ margin: 40, paddingHorizontal: 20, flex: 1 }} />
     )
   );
 });
@@ -53,6 +56,7 @@ test('React Native View (inline styles) basic rendering', async () => {
 const StaticStyledView = styled.View`
   margin: 40px;
   padding-horizontal: 20px;
+  flex: 1;
 `;
 
 test('Styled.View (static tag string) basic rendering', async () => {
@@ -62,6 +66,7 @@ test('Styled.View (static tag string) basic rendering', async () => {
 const DynamicStyledView = styled.View`
   margin: ${() => '40px'};
   padding-horizontal: ${() => '20px'};
+  flex: ${() => '1'};
 `;
 
 test('Styled.View (dynamic tag string) basic rendering', async () => {
@@ -71,6 +76,7 @@ test('Styled.View (dynamic tag string) basic rendering', async () => {
 const ObjectStyledView = styled.View({
   margin: '40px',
   paddingHorizontal: '20px',
+  flex: 1,
 });
 
 test('Styled.View (object styles) basic rendering', async () => {
@@ -87,7 +93,10 @@ test('NativeBase Box basic rendering', async () => {
   const wrapper = (ui: React.ReactElement) => (
     <NativeBaseProvider initialWindowMetrics={inset}>{ui}</NativeBaseProvider>
   );
-  await measurePerformance(repeatComponent(scale, <NBBox m={10} px={5} />), {
-    wrapper,
-  });
+  await measurePerformance(
+    repeatComponent(scale, <NBBox m={10} px={5} flex={1} />),
+    {
+      wrapper,
+    }
+  );
 });

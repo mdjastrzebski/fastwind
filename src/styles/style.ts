@@ -1,12 +1,14 @@
 import type { ViewStyle } from 'react-native';
 import { MarginStyleProps, marginPropsMap } from './margins';
 import { PaddingStyleProps, paddingPropsMap } from './paddings';
+import { FlexStyleProps, flexPropsMap } from './flex';
 
-export type StyleProps = MarginStyleProps & PaddingStyleProps;
+export type StyleProps = MarginStyleProps & PaddingStyleProps & FlexStyleProps;
 
 export const propsMap = {
   ...marginPropsMap,
   ...paddingPropsMap,
+  ...flexPropsMap,
 } as const;
 
 export function extractStyle<T extends StyleProps>(
@@ -14,12 +16,14 @@ export function extractStyle<T extends StyleProps>(
 ): [ViewStyle, Omit<T, keyof StyleProps>] {
   const style = {};
   const restProps = {};
+  let hasStyles = false;
 
   Object.entries(props).forEach(([key, value]) => {
-    // @ts-expect-error - TS doesn't know the type of propsMap[key]
+    // @ts-expect-error
     const propMapper = propsMap[key];
     if (propMapper != null) {
       Object.assign(style, propMapper(value));
+      hasStyles = true;
       return;
     }
 
@@ -28,5 +32,5 @@ export function extractStyle<T extends StyleProps>(
   });
 
   // @ts-expect-error - TS cannot check restProps type
-  return [style, restProps];
+  return [hasStyles ? style : null, restProps];
 }
