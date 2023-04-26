@@ -10,13 +10,6 @@ npm install react-native-fastwind
 
 ## Usage
 
-```js
-import { multiply } from 'react-native-fastwind';
-
-// ...
-
-const result = await multiply(3, 7);
-```
 
 ## Contributing
 
